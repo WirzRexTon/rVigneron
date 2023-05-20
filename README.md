@@ -1,7 +1,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/WirzRexTon/rVigneron"> </a>
-  <h3 align="center">winemaking job - Legacy x ox</h3>
+  <h3 align="center">winemaking job - Legacy x OX</h3>
 
   <p align="center">
     A winemaking job made for you! 
