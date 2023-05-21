@@ -1,3 +1,40 @@
+local farmingBlips
+
+
+local function setFarmingBlips()
+    if ESX.PlayerData.job and ESX.PlayerData.job.name == 'vigne' then
+        for blipsType, actions in pairs(Config.Farming) do
+            for _, blipsData in pairs(actions) do
+                farmingBlips  = AddBlipForCoord(blipsData.position)
+                SetBlipSprite(farmingBlips, blipsData.blipsId)
+                SetBlipScale(farmingBlips, blipsData.blipsScale)
+                SetBlipColour(farmingBlips, blipsData.blipsColor)
+                SetBlipAsShortRange(farmingBlips, true)
+            
+                BeginTextCommandSetBlipName('STRING')
+                AddTextComponentSubstringPlayerName(blipsData.label)
+                EndTextCommandSetBlipName(farmingBlips)
+            end 
+        end 
+    else
+        if farmingBlips then
+            RemoveBlip(farmingBlips)
+        end 
+    end 
+end 
+
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function(xPlayer)
+	PlayerData = xPlayer
+	setFarmingBlips()
+end)
+
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+	ESX.PlayerData.job = job
+    setFarmingBlips()
+end)
 
 CreateThread(function()
     for k,v in pairs(Config.JobActions.Blips) do 
@@ -10,19 +47,6 @@ CreateThread(function()
         BeginTextCommandSetBlipName('STRING')
         AddTextComponentSubstringPlayerName(v.label)
         EndTextCommandSetBlipName(blip)
-    end 
-    for blipsType, actions in pairs(Config.Farming) do
-        for _, blipsData in pairs(actions) do
-            local blip  = AddBlipForCoord(blipsData.position)
-            SetBlipSprite(blip, blipsData.blipsId)
-            SetBlipScale(blip, blipsData.blipsScale)
-            SetBlipColour(blip, blipsData.blipsColor)
-            SetBlipAsShortRange(blip, true)
-        
-            BeginTextCommandSetBlipName('STRING')
-            AddTextComponentSubstringPlayerName(blipsData.label)
-            EndTextCommandSetBlipName(blip)
-        end 
     end 
     while true do
         local pPed = PlayerPedId()
@@ -50,6 +74,7 @@ CreateThread(function()
         NearZone = NearZone
     end
 end)
+
 
 
 local farmingActive = false
