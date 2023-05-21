@@ -104,7 +104,14 @@ rVigneron.openLockers = function()
             RageUI.Item.Button('Reprendre sa tenue', nil, {RightLabel = '→'}, true, {
                 onSelected = function()
                     ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
-                        TriggerEvent('skinchanger:loadSkin', skin)
+                        local isMale = skin.sex == 0
+    
+                        TriggerEvent('skinchanger:loadDefaultModel', isMale, function()
+                            ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin)
+                                TriggerEvent('skinchanger:loadSkin', skin)
+                            end)
+                        end)
+    
                     end)
                 end,
             })
