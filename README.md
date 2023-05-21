@@ -36,10 +36,10 @@ I could help to make this job work without ox_inventory. But for other changes (
 
 _Do not try to take over this work and sell it._
 
-### How to add food in ox_inventory. 
+### Add item in ox_inventory 
 
 1. Go to [ox]/ox_inventory/data/items.lua
-2. To add an item, here is the example for the hunger and the thirst
+2. Here are the items you need by default for the job
   ```sh
     ['water'] = {
       label = 'Water',
