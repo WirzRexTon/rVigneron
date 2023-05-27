@@ -1,24 +1,28 @@
-local farmingBlips
+local farmingBlips = {}
 
 
 local function setFarmingBlips()
     if ESX.PlayerData.job and ESX.PlayerData.job.name == 'vigne' then
         for blipsType, actions in pairs(Config.Farming) do
             for _, blipsData in pairs(actions) do
-                farmingBlips  = AddBlipForCoord(blipsData.position)
-                SetBlipSprite(farmingBlips, blipsData.blipsId)
-                SetBlipScale(farmingBlips, blipsData.blipsScale)
-                SetBlipColour(farmingBlips, blipsData.blipsColor)
-                SetBlipAsShortRange(farmingBlips, true)
+                farmingBlips[blipsType]  = AddBlipForCoord(blipsData.position)
+                SetBlipSprite(farmingBlips[blipsType], blipsData.blipsId)
+                SetBlipScale(farmingBlips[blipsType], blipsData.blipsScale)
+                SetBlipColour(farmingBlips[blipsType], blipsData.blipsColor)
+                SetBlipAsShortRange(farmingBlips[blipsType], true)
             
                 BeginTextCommandSetBlipName('STRING')
                 AddTextComponentSubstringPlayerName(blipsData.label)
-                EndTextCommandSetBlipName(farmingBlips)
+                EndTextCommandSetBlipName(farmingBlips[blipsType])
             end 
         end 
     else
         if farmingBlips then
-            RemoveBlip(farmingBlips)
+            for blipsType, actions in pairs(Config.Farming) do
+                for _, blipsData in pairs(actions) do
+                    RemoveBlip(farmingBlips[blipsType])
+                end 
+            end 
         end 
     end 
 end 
