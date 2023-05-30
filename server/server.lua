@@ -4,11 +4,7 @@ RegisterServerEvent('rVigneron:announce')
 AddEventHandler('rVigneron:announce', function(message)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if xPlayer.job.name == "vigne" then 
-		local xPlayers = ESX.GetPlayers()
-		for i = 1, #xPlayers, 1 do 
-			local Players = ESX.GetPlayerFromId(xPlayers[1])
-			TriggerClientEvent('esx:showAdvancedNotification', Players.source, "Vigneron", "~g~Annonce", message, "CHAR_LIFEINVADER", 8)
-		end 
+     TriggerClientEvent('esx:showAdvancedNotification', -1, "Vigneron", "~g~Annonce", message, "CHAR_LIFEINVADER", 8) 
 	end 
 end)
 
