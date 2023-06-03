@@ -124,7 +124,6 @@ end)
 
 
 
-local progressCancelled = false 
 RegisterNetEvent('showProgress')
 AddEventHandler('showProgress', function(actionType, actionData)
     farmingActive = true
@@ -153,12 +152,10 @@ AddEventHandler('showProgress', function(actionType, actionData)
         }) then 
             TriggerServerEvent('completeFarming', actionType, actionData)
         else 
-            if not progressCancelled then
-                TriggerServerEvent('stopFarming', GetPlayerServerId(PlayerId()))
-            end
+            TriggerServerEvent('stopFarming', GetPlayerServerId(PlayerId()))
+            farmingActive = false
         end
 
-        progressCancelled = false 
         Wait(0)
     end
 end)
@@ -167,8 +164,10 @@ end)
 
 RegisterNetEvent('deleteProgress')
 AddEventHandler('deleteProgress', function()
-    lib.cancelProgress()
+    if farmingActive then 
+        lib.cancelProgress()
+    end 
     farmingActive = false
-    progressCancelled = true
 end)
+
 
