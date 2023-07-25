@@ -15,7 +15,7 @@
 </div>
 
 ## About The Project
-Hello, this is a simple looking winemaking job. But I find it very well done in terms of programming. If you have any feedback to give me, please join the discord. 
+Hello, this is a simple looking winemaking job. I've tried to keep the code as simple as possible, but if you have any recommendations, send me a private message or make a pull request. 
 
 ## Getting Started
 
