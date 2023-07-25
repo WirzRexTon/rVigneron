@@ -1,5 +1,4 @@
 Config = {
-    Locale = GetConvar('esx:locale', 'en'), -- La langue / The language (Don't forget the esx:locale in the server.cfg and es_extended/config.lua)
     keyMenu = "F6", -- Press to open the winemaker actions menu 
     Farming = {
         Harvest = {
