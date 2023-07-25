@@ -30,5 +30,6 @@ server_script {
 dependencies {
 	'es_extended',
 	'ox_inventory',
+	'ox_lib',
 	'esx_society'
 }
