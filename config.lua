@@ -1,4 +1,5 @@
 Config = {
+    Locale = GetConvar('esx:locale', 'en'),
     keyMenu = "F6", -- Press to open the winemaker actions menu 
     Farming = {
         Harvest = {

@@ -5,9 +5,7 @@ lua54 'yes'
 
 shared_scripts {
     '@es_extended/imports.lua',
-    '@es_extended/locale.lua',
     '@ox_lib/init.lua',
-    'locales/*.lua',
     'config.lua',
 }
 
@@ -22,10 +20,14 @@ client_scripts {
  
 
 client_scripts {
+    '@es_extended/locale.lua',
+    'locales/*.lua',
     'client/*.lua'
 }
 
 server_script {
+    '@es_extended/locale.lua',
+    'locales/*.lua',
     'server/*.lua'
 }
 

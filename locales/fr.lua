@@ -1,4 +1,4 @@
-Locales['en'] = {
+Locales['fr'] = {
     ['wineMakingName'] = "Winegrower", -- For Announce and Blip
     ['rewardMoney'] = "L'entreprise a reçue $~o~%s", -- Pour la notification lorsque l'argent est reçu sur la vente
     ['missingItem']  = "Objet manquant - %s : ~o~%s~s~/~o~%s", -- Pour une notification lorsqu'un article est manquant pour le traitement ou la vente.
