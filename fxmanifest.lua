@@ -4,18 +4,20 @@ lua54 'yes'
 
 
 shared_scripts {
-    "@es_extended/imports.lua",
-    "@ox_lib/init.lua",
-    "config.lua",
+    '@es_extended/imports.lua',
+    '@es_extended/locale.lua',
+    '@ox_lib/init.lua',
+    'locales/*.lua',
+    'config.lua',
 }
 
 client_scripts {
-    "RageUI/RMenu.lua",
-    "RageUI/menu/RageUI.lua",
-    "RageUI/menu/Menu.lua",
-    "RageUI/menu/MenuController.lua",
-    "RageUI/components/*.lua",
-    "RageUI/menu/**/*.lua",
+    'RageUI/RMenu.lua',
+    'RageUI/menu/RageUI.lua',
+    'RageUI/menu/Menu.lua',
+    'RageUI/menu/MenuController.lua',
+    'RageUI/components/*.lua',
+    'RageUI/menu/**/*.lua',
 }
  
 

@@ -14,19 +14,22 @@ local function setFarmingBlips()
                 BeginTextCommandSetBlipName('STRING')
                 AddTextComponentSubstringPlayerName(blipsData.label)
                 EndTextCommandSetBlipName(farmingBlips[blipsType])
-            end 
-        end 
+            end
+        end
     else
         if farmingBlips then
             for blipsType, actions in pairs(Config.Farming) do
                 for _, blipsData in pairs(actions) do
                     RemoveBlip(farmingBlips[blipsType])
-                end 
-            end 
-        end 
-    end 
-end 
+                end
+            end
+        end
+    end
+end
 
+CreateThread(function()
+    setFarmingBlips()
+end)
 
 RegisterNetEvent('esx:playerLoaded')
 AddEventHandler('esx:playerLoaded', function(xPlayer)

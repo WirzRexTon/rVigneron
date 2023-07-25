@@ -3,8 +3,8 @@ rVigneron = {}
 
 rVigneron.openVigneActions = function()
 
-    local Vigneron = RageUI.CreateMenu('Vigneron', 'Actions')
-    local Announce = RageUI.CreateSubMenu(Vigneron, "Annonces", "Liste :")
+    local Vigneron = RageUI.CreateMenu(TranslateCap("menuTitle"), TranslateCap("menuSubTitle"))
+    local Announce = RageUI.CreateSubMenu(Vigneron, TranslateCap("announceTitle"), TranslateCap("announceSubTitle"))
 
 
     RageUI.Visible(Vigneron, not RageUI.Visible(Vigneron))
@@ -13,31 +13,31 @@ rVigneron.openVigneActions = function()
         RageUI.IsVisible(Vigneron, function()
             local closestPlayer, closestPlayerDistance = ESX.Game.GetClosestPlayer()
             if closestPlayer == -1 or closestPlayerDistance > 1.5 then
-                RageUI.Item.Button('Faire une facture', nil, {RightLabel = '→'}, false, {})
+                RageUI.Item.Button(TranslateCap("makeBill"), nil, {RightLabel = '→'}, false, {})
             else 
-                RageUI.Item.Button('Faire une facture', nil, {RightLabel = '→'}, true, {
+                RageUI.Item.Button(TranslateCap("makeBill"), nil, {RightLabel = '→'}, true, {
                     onActive = function()
                             local cCoords = GetEntityCoords(PlayerPedId())
                             DrawMarker(20, cCoords.x, cCoords.y, cCoords.z+1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.3, 0.3, 0, 255, 0, 170, 0, 1, 2, 0, nil, nil, 0)
                     end, 
                     onSelected = function()
-                        local input = lib.inputDialog('Facture Vigneron', {
-                            {type = 'number', description = 'Ecrire le montant de la facture', icon = 'dollar-sign'},
+                        local input = lib.inputDialog(TranslateCap("billingTitle"), {
+                            {type = 'number', description = TranslateCap("billingConfirmationText"), icon = 'dollar-sign'},
                         })   
                         if not input then 
                             return
                         else 
                             if input[1] == 0 then 
-                                ESX.ShowNotification("Montant invalide")
+                                ESX.ShowNotification(TranslateCap("billingError"))
                                 return 
                             else 
-                                TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_vigne', "Vigneron", input[1], true)
+                                TriggerServerEvent('esx_billing:sendBill', GetPlayerServerId(closestPlayer), 'society_vigne', TranslateCap("billingTitle"), input[1], true)
                             end 
                         end
                     end,
                 })
             end 
-            RageUI.Item.Button('Annonces', nil, {RightLabel = '→'}, true, {}, Announce)
+            RageUI.Item.Button(TranslateCap("announceTitle"), nil, {RightLabel = '→'}, true, {}, Announce)
         end)
         RageUI.IsVisible(Announce, function()
             for k,v in pairs(Config.JobActions.AnnounceMessage) do 
@@ -45,12 +45,12 @@ rVigneron.openVigneActions = function()
                     onSelected = function()
                         local alert = lib.alertDialog({
                             header = "Confirmation de l'annonce",
-                            content = "Veuillez confirmer ou non l'envoie de votre annonce !",
+                            content = TranslateCap("announceConfirmationText"),
                             centered = true,
                             cancel = true
                         })
                         if alert and alert == "confirm" then 
-                            TriggerServerEvent('rVigneron:announce', v.message)
+                            TriggerServerEvent('rVigneron:announce', v.title, v.message)
                         else 
                             return
                         end 
@@ -69,7 +69,7 @@ RegisterCommand('vigneActions', function(source, args)
         rVigneron.openVigneActions()
     end 
 end)
-RegisterKeyMapping('vigneActions', 'Ouvrir le menu vigneron', 'keyboard', 'F6')
+RegisterKeyMapping('vigneActions', TranslateCap("openActionMenuKey"), 'keyboard', Config.keyMenu)
 
 
 
@@ -79,7 +79,7 @@ local function setUniform(job, playerPed)
 			if Config.JobActions.Locker[job].clothes.male then
 				TriggerEvent('skinchanger:loadClothes', skin, Config.JobActions.Locker[job].clothes.male)
 			else
-				ESX.ShowNotification("Pas de vêtements")
+				ESX.ShowNotification(TranslateCap('noClothes'))
 			end
 
 			if job == 'bullet_wear' then
@@ -89,19 +89,19 @@ local function setUniform(job, playerPed)
 			if Config.JobActions.Locker[job].clothes.female then
 				TriggerEvent('skinchanger:loadClothes', skin, Config.JobActions.Locker[job].clothes.female)
 			else
-				ESX.ShowNotification("Pas de vêtements")
+				ESX.ShowNotification(TranslateCap('noClothes'))
 			end
 		end
 	end)
 end
 
 rVigneron.openLockers = function()
-    local Locker = RageUI.CreateMenu('Vestiaire', 'Liste :')
+    local Locker = RageUI.CreateMenu(TranslateCap("clothesMenuTitle"), TranslateCap("clothesMenuSubTitle"))
     RageUI.Visible(Locker, not RageUI.Visible(Locker))
     while Locker do
         Wait(1)
         RageUI.IsVisible(Locker, function()
-            RageUI.Item.Button('Reprendre sa tenue', nil, {RightLabel = '→'}, true, {
+            RageUI.Item.Button(TranslateCap("civilianDress"), nil, {RightLabel = '→'}, true, {
                 onSelected = function()
                     ESX.TriggerServerCallback('esx_skin:getPlayerSkin', function(skin, jobSkin)
                         local isMale = skin.sex == 0

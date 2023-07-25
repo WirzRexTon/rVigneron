@@ -1,10 +1,10 @@
 TriggerEvent('esx_society:registerSociety', 'vigne', 'vigne', 'society_vigne', 'society_vigne', 'society_vigne', {type = 'private'})
 
 RegisterServerEvent('rVigneron:announce')
-AddEventHandler('rVigneron:announce', function(message)
+AddEventHandler('rVigneron:announce', function(title, message)
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if xPlayer.job.name == "vigne" then 
-     TriggerClientEvent('esx:showAdvancedNotification', -1, "Vigneron", "~g~Annonce", message, "CHAR_LIFEINVADER", 8) 
+        TriggerClientEvent('esx:showAdvancedNotification', -1, TranslateCap('wineMakingName'), title, message, "CHAR_LIFEINVADER", 8) 
 	end 
 end)
 
@@ -51,7 +51,7 @@ AddEventHandler('completeFarming', function(actionType, actionData)
                 local Inventory = exports.ox_inventory:GetItem(source, v.item)
                 if not Inventory or Inventory.count < v.itemCount then 
                     TriggerEvent("stopFarming", source)
-                    xPlayer.showNotification("Objet manquant - "..v.label.." : ~o~"..Inventory.count.."~s~/~o~"..v.itemCount)
+                    xPlayer.showNotification(TranslateCap("missingItem", v.label, Inventory.count, v.itemCount))
                     return 
                 end 
             end 
@@ -89,14 +89,14 @@ AddEventHandler('completeFarming', function(actionType, actionData)
                     if account then
                         local money = actionData.receivedMoney*actionData.societyPercentage
                         account.addMoney(money)
-                        xPlayer.showNotification(("L'entreprise a reçue $~o~%s"):format(money))
+                        xPlayer.showNotification(TranslateCap("rewardMoney", money))
                     else
                         return
                     end
                 end)
             else 
                 TriggerEvent("stopFarming", source)
-                xPlayer.showNotification("Objet manquant - "..actionData.itemForSaleLabel.." : ~o~"..number.."~s~/~o~"..actionData.forSaleBy)
+                xPlayer.showNotification(TranslateCap("missingItem", actionData.itemForSaleLabel, number, actionData.forSaleBy))
                 return 
             end 
         end 

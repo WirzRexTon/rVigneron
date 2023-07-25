@@ -1,19 +1,21 @@
 Config = {
+    Locale = GetConvar('esx:locale', 'en'), -- La langue / The language (Don't forget the esx:locale in the server.cfg and es_extended/config.lua)
+    keyMenu = "F6", -- Press to open the winemaker actions menu 
     Farming = {
         Harvest = {
             [1] = {
                 item = "grape", -- item received for harvesting
-                label = "Récolte de raisin", -- Label for blips 
+                label = "Grape Harvest", -- Label for blips 
                 harvestCount = 1, -- Number of items received each time
                 time = 3, -- Time it takes for an item to be harvested (in seconds) 
                 position = vector3(-1745.6905517578, 2380.1508789063, 45.757413482666), -- Position of the action (vector3)
-                helpNotification = "Appuyez sur ~INPUT_PICKUP~ pour rammasser du raisin", -- Message for showHelpNotification
+                helpNotification = "Press ~INPUT_PICKUP~ to pick up grapes", -- Message for showHelpNotification
                 blipsId = 286, blipsColor = 50, blipsScale = 0.6 -- Blip options (https://docs.fivem.net/docs/game-references/blips/)
             }
         },
         Treatment = {
             [1] = {
-                label = "Fabrication de vin", -- Label for blips 
+                label = "Wine Making", -- Label for blips 
                 receivedItem = 'wine', -- Item received at each treatment/manufacturing
                 receivedItemCount = 1, -- Number of items received at each manufacture/treatment
                 time = 5, -- Time to make/process this item (in seconds)
@@ -24,13 +26,13 @@ Config = {
                         {item = 'water', label = "Eau", itemCount = 1}, 
                     }, 
                 position = vector3(-1933.5610351563, 2039.4328613281, 139.9564465332), -- Position of the action (vector3)
-                helpNotification = "Appuyez sur ~INPUT_PICKUP~ pour faire du vin", -- Message for showHelpNotification
+                helpNotification = "Press ~INPUT_PICKUP~ to make wine.", -- Message for showHelpNotification
                 blipsId = 286, blipsColor = 50, blipsScale = 0.6 -- Blip options (https://docs.fivem.net/docs/game-references/blips/)
             },
         },
         Sale = {
             [1] = {
-                label = "Vente de vin", -- Label for blips
+                label = "Wine Sales", -- Label for blips
                 receivedMoney = 30, -- Price the item is worth
                 societyPercentage = 0.30, -- Percentage that the company takes (example: 0.30 for 30%)
                 time  = 3, -- Time to sell this item (in seconds) 
@@ -38,7 +40,7 @@ Config = {
                 itemForSaleLabel = "Vin", -- Label of the item on sale
                 forSaleBy = 2, -- Number of items required for each sale
                 position = vector3(202.314453125, -26.093729019165, 68.8983259277), -- Position of the action (vector3)
-                helpNotification = "Appuyez sur ~INPUT_PICKUP~ pour vendre votre vin", -- Message for showHelpNotification
+                helpNotification = "Press ~INPUT_PICKUP~ to sell your wine", -- Message for showHelpNotification
                 blipsId = 286, blipsColor = 50, blipsScale = 0.6 -- Blip options (https://docs.fivem.net/docs/game-references/blips/)
             },
         }
@@ -55,7 +57,7 @@ Config = {
         },
         Locker = {
             [1] = {
-                label = "Tenue de travail", -- Name of the outfit in the menu 
+                label = "Working clothes", -- Name of the outfit in the menu 
                 grade = 0, -- Grade required to take the outfit
                 clothes = {
                     male = {
@@ -85,17 +87,17 @@ Config = {
                 },
             },
         },
-        AnnounceMessage = { 
-            {label = "Vigneron fermé", message = "Le vigneron ferme pour le moment !"},
-            {label = "Vigneron ouvert", message = "Le vigneron est ouvert !"},
-            {label = "Recrutement", message = "Le vigneron recherche des employés !"},
-        },
+        AnnounceMessage = {
+            {label = "Winemaker closed", title = "Announce", message = "The winemaker is closed for now!"},
+            {label = "Winemaker open", title = "Announce", message = "The winemaker is open!"},
+            {label = "Recruitment", title = "Announce", message = "The winemaker is hiring employees!"},
+        },        
         Points = {
             {
                 name = "Clothes", -- Name of the point 
                 grade = 0, -- Minimal grade required to access the point 
                 coords = vec3(-1908.9298095703, 2071.9333496094, 140.3863067627), -- The position in vector3
-                text = "Appuyer sur ~INPUT_PICKUP~ pour ouvrir le vestiaire !", -- The message for the showHelpNotification
+                text = "Press ~INPUT_PICKUP~ to open the locker room!", -- The message for the showHelpNotification
                 action = function() -- The action that will be performed when the person presses E
                     rVigneron.openLockers()
                 end,
@@ -106,7 +108,7 @@ Config = {
                 name = "BossAction", -- Name of the point 
                 grade = 4, -- Minimal grade required to access the point 
                 coords = vec3(-1911.8521728516, 2079.7719726563, 140.3837890625), -- The position in vector3
-                text = "Appuyer sur ~INPUT_PICKUP~ pour ouvrir les actions du patron !", -- The message for the showHelpNotification
+                text = "Press ~INPUT_PICKUP~ to open the pattern actions!", -- The message for the showHelpNotification
                 action = function() -- The action that will be performed when the person presses E
                     RageUI.CloseAll()
                     TriggerEvent('esx_society:openBossMenu', "vigne", function (data, menu)
@@ -122,17 +124,13 @@ Config = {
                 name = "Storage", -- Name of the point 
                 grade = 0, -- Minimal grade required to access the point 
                 coords = vec3(-1911.5894775391, 2074.1704101563, 140.38638305664), -- The position in vector3
-                text = "Appuyer sur ~INPUT_PICKUP~ pour ouvrir le stockage !", -- The message for the showHelpNotification
+                text = "Press ~INPUT_PICKUP~ to open storage!", -- The message for the showHelpNotification
                 action = function() -- The action that will be performed when the person presses E
                     exports.ox_inventory:openInventory('stash', {id = 'society_vigne'})
                 end,
                 actionRange = 1.5, -- Distance to display the showHelpNotification
                 markerId = 21, markerRange = 3, markerColorR = 255, markerColorG = 255, markerColorB = 255, sizeX = 0.5, sizeY = 0.5, sizeZ = 0.5-- Marker options (https://docs.fivem.net/docs/game-references/markers/)
             },
-
-
-
-
         }
     }
 }
