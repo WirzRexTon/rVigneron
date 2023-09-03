@@ -111,10 +111,7 @@ Config = {
                 text = "Press ~INPUT_PICKUP~ to open the pattern actions!", -- The message for the showHelpNotification
                 action = function() -- The action that will be performed when the person presses E
                     RageUI.CloseAll()
-                    TriggerEvent('esx_society:openBossMenu', "vigne", function (data, menu)
-                        menu.close()
-                        RageUI.CloseAll()
-                    end, {wash = false}) 
+                    TriggerEvent('esx_society:openBossMenu', "vigne", function (data, menu) end, {wash = false}) 
                 end,
                 actionRange = 1.5, -- Distance to display the showHelpNotification
                 markerId = 21, markerRange = 3, markerColorR = 255, markerColorG = 255, markerColorB = 255, sizeX = 0.5, sizeY = 0.5, sizeZ = 0.5-- Marker options (https://docs.fivem.net/docs/game-references/markers/)
