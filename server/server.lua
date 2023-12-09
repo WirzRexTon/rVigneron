@@ -82,7 +82,7 @@ AddEventHandler('completeFarming', function(actionType, actionData)
             end 
         else 
             local number = exports.ox_inventory:GetItemCount(source, actionData.itemForSale, {}, true)
-            if number >= actionData.itemForSale then 
+            if number >= actionData.forSaleBy then 
                 local success = exports.ox_inventory:RemoveItem(source, actionData.itemForSale, actionData.forSaleBy)
                 xPlayer.addMoney(actionData.receivedMoney - (actionData.receivedMoney * actionData.societyPercentage))
                 TriggerEvent('esx_addonaccount:getSharedAccount', 'society_vigne', function(account)
