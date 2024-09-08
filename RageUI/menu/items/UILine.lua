@@ -21,7 +21,7 @@ local SettingsButton = {
 }
 
 
-function RageUI.Line(Style)
+function RageUI.Item.Line(Style)
     local CurrentMenu = RageUI.CurrentMenu
     if CurrentMenu ~= nil then
         if CurrentMenu() then
