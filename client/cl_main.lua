@@ -1,28 +1,33 @@
+---@class BlipManagerProperties
+---@field farmingBlips table
+---@field jobBlips table
+---@field blip number
+
+---@class BlipManager : BlipManagerProperties
 BlipManager = {}
 BlipManager.__index = BlipManager
 
-function BlipManager:new()
-    local instance = {
-        farmingBlips = {},
-        jobBlips = {}
-    }
-    setmetatable(instance, BlipManager)
-    return instance
+function BlipManager.new()
+    local self = setmetatable({}, BlipManager)
+    self.farmingBlips = {}
+    self.jobBlips = {}
+    self.blip = nil
+    return self
 end
 
 function BlipManager:setFarmingBlips()
     if ESX.PlayerData.job and ESX.PlayerData.job.name == 'vigne' then
         for blipsType, actions in pairs(Config.Farming) do
             for _, blipsData in pairs(actions) do
-                local blip = AddBlipForCoord(blipsData.position)
-                SetBlipSprite(blip, blipsData.blipsId)
-                SetBlipScale(blip, blipsData.blipsScale)
-                SetBlipColour(blip, blipsData.blipsColor)
-                SetBlipAsShortRange(blip, true)
+                self.blip = AddBlipForCoord(blipsData.position)
+                SetBlipSprite(self.blip, blipsData.blipsId)
+                SetBlipScale(self.blip, blipsData.blipsScale)
+                SetBlipColour(self.blip, blipsData.blipsColor)
+                SetBlipAsShortRange(self.blip, true)
                 BeginTextCommandSetBlipName('STRING')
                 AddTextComponentSubstringPlayerName(blipsData.label)
-                EndTextCommandSetBlipName(blip)
-                self.farmingBlips[blipsType] = blip
+                EndTextCommandSetBlipName(self.blip)
+                self.farmingBlips[blipsType] = self.blip
             end
         end
     else
@@ -47,29 +52,35 @@ function BlipManager:setJobBlips()
     end
 end
 
+
+---@class MarkerManagerProperties
+---@field farmingActive boolean
+---@field pPed number
+
+
+---@class MarkerManager : MarkerManagerProperties 
 MarkerManager = {}
 MarkerManager.__index = MarkerManager
 
-function MarkerManager:new()
-    local instance = {
-        farmingActive = false
-    }
-    setmetatable(instance, MarkerManager)
-    return instance
+function MarkerManager.new()
+    local self = setmetatable({}, MarkerManager)
+    self.farmingActive = false
+    self.pPed = PlayerPedId()
+    self.pCoords = GetEntityCoords(self.pPed)
+    return self
 end
 
 function MarkerManager:drawMarkers()
-    local pPed = PlayerPedId()
-    local pCoords = GetEntityCoords(pPed)
+    self.pCoords = GetEntityCoords(self.pPed)
     local NearZone = false
 
     for actionType, actions in pairs(Config.Farming) do
         if ESX.PlayerData.job and ESX.PlayerData.job.name == 'vigne' and not ESX.PlayerData.dead then
             for _, actionData in pairs(actions) do
-                if #(pCoords - actionData.position) < 10 then
+                if #(self.pCoords - actionData.position) < 10 then
                     NearZone = true
                     DrawMarker(25, actionData.position, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 3.0, 3.0, 0.5, 255, 255, 255, 180, 0, 0, 2, 0, nil, nil, 0)
-                    if #(pCoords - actionData.position) <= 3 then
+                    if #(self.pCoords - actionData.position) <= 3 then
                         if not self.farmingActive then
                             ESX.ShowHelpNotification(actionData.helpNotification)
                             if IsControlJustPressed(1, 38) then
@@ -84,10 +95,10 @@ function MarkerManager:drawMarkers()
 
     for _, v in pairs(Config.JobActions.Points) do
         if ESX.PlayerData.job and ESX.PlayerData.job.name == 'vigne' and ESX.PlayerData.job.grade >= v.grade and not ESX.PlayerData.dead then
-            if #(pCoords - v.coords) < 10 then
+            if #(self.pCoords - v.coords) < 10 then
                 NearZone = true
                 DrawMarker(v.markerId, v.coords.x, v.coords.y, v.coords.z, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.sizeX, v.sizeY, v.sizeZ, v.markerColorR, v.markerColorG, v.markerColorB, 180, 0, 0, 2, 0, nil, nil, 0)
-                if #(pCoords - v.coords) <= v.actionRange then
+                if #(self.pCoords - v.coords) <= v.actionRange then
                     ESX.ShowHelpNotification(v.text)
                     if IsControlJustPressed(1, 38) then
                         v.action()
@@ -106,15 +117,18 @@ function MarkerManager:drawMarkers()
     Wait(1)
 end
 
+
+---@class FarmingProgressProperties
+---@field farmingActive boolean
+
+---@class FarmingProgress : FarmingProgressProperties 
 FarmingProgress = {}
 FarmingProgress.__index = FarmingProgress
 
-function FarmingProgress:new()
-    local instance = {
-        farmingActive = false
-    }
-    setmetatable(instance, FarmingProgress)
-    return instance
+function FarmingProgress.new()
+    local self = setmetatable({}, FarmingProgress)
+    self.farmingActive = false 
+    return self
 end
 
 function FarmingProgress:showProgress(actionType, actionData)
@@ -157,9 +171,9 @@ function FarmingProgress:deleteProgress()
     self.farmingActive = false
 end
 
-local blipManager = BlipManager:new()
-local markerManager = MarkerManager:new()
-local farmingProgress = FarmingProgress:new()
+local blipManager = BlipManager.new()
+local markerManager = MarkerManager.new()
+local farmingProgress = FarmingProgress.new()
 
 CreateThread(function()
     blipManager:setFarmingBlips()
